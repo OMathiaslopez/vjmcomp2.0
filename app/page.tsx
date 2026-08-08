@@ -1,12 +1,13 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Building2, Home, Key, TrendingUp } from "lucide-react"
+import { ArrowRight, Building2, Key, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { PropertyCard } from "@/components/property-card"
 import { ConsultantsSection } from "@/components/consultants-section"
+import { VgvCounter } from "@/components/vgv-counter"
 import { properties } from "@/lib/properties"
 
 export default function HomePage() {
@@ -18,20 +19,23 @@ export default function HomePage() {
       <main className="min-h-screen pt-20">
 
         {/* Hero Section */}
-        <section className="relative h-[90vh] min-h-[600px] flex items-center">
-          <div className="absolute inset-0 z-0">
+        <section className="hero-luxury relative h-[90vh] min-h-[600px] flex items-center">
+            <div className="absolute inset-0 z-0">
             <Image
-              src="/images/hero.jpg"
-              alt="Imóveis de alto padrão em São Paulo"
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=90"
+              alt="Edifício corporativo moderno em região valorizada"
               fill
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-black/30" />
-          </div>
+              <div className="hero-overlay absolute inset-0" />
+              <div className="hero-grid absolute inset-0" aria-hidden="true" />
+              <div className="hero-orb hero-orb-one" aria-hidden="true" />
+              <div className="hero-orb hero-orb-two" aria-hidden="true" />
+            </div>
 
           <div className="container mx-auto px-6 relative z-10">
-            <div className="max-w-3xl">
+            <div className="hero-copy max-w-3xl">
               <p className="text-primary-foreground/80 text-sm uppercase tracking-[0.3em] mb-6 font-medium">
                 Consultoria Imobiliária em São Paulo
               </p>
@@ -59,12 +63,13 @@ Atendimento personalizado para compra, venda e investimento imobiliário.
                   </a>
                 </Button>
               </div>
+              <div className="hero-signature" aria-hidden="true"><span>VJM</span><small>PRIVATE<br />REAL ESTATE</small></div>
             </div>
           </div>
         </section>
 
         {/* About Preview */}
-        <section id="sobre" className="py-24 bg-card scroll-mt-24">
+        <section id="sobre" className="reveal-section py-24 bg-card scroll-mt-24">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -98,11 +103,15 @@ Atendimento personalizado para compra, venda e investimento imobiliário.
               <div className="relative">
                 <div className="aspect-[4/5] relative">
                   <Image
-                    src="/images/property-3.jpg"
-                    alt="Imóvel de alto padrão"
+                    src="/images/vjm-institutional.svg"
+                    alt="Arte institucional VJM com arquitetura e patrimônio em São Paulo"
                     fill
                     className="object-cover rounded-sm"
                   />
+                  <div className="about-brand-overlay">
+                    <Image src="/images/logo-vjm.png" alt="VJM" width={180} height={56} />
+                    <span>Patrimônio · Estratégia · São Paulo</span>
+                  </div>
                 </div>
 
                 <div className="absolute -bottom-8 -left-8 bg-foreground text-primary-foreground p-8 rounded-sm hidden md:block">
@@ -117,97 +126,19 @@ Atendimento personalizado para compra, venda e investimento imobiliário.
           </div>
         </section>
 
-        {/* Areas of Expertise */}
-        <section id="areas-atuacao" className="py-24 bg-background scroll-mt-24">
+        <section id="areas-atuacao" className="areas-editorial reveal-section scroll-mt-24">
+          <div className="architecture-wireframe" aria-hidden="true"><i /><i /><i /><i /><span /></div>
           <div className="container mx-auto px-6">
-
-            <div className="text-center mb-16">
-              <p className="text-gold text-sm uppercase tracking-[0.2em] mb-4 font-medium">
-                Áreas de Atuação
-              </p>
-
-              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
-                Especialização em diferentes segmentos do mercado
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-              <div className="bg-card p-10 rounded-sm border border-border hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-gold/10 rounded-sm">
-                    <Home className="h-6 w-6 text-gold" />
-                  </div>
-
-                  <h3 className="font-serif text-2xl font-semibold text-foreground">
-                    Residencial de Alto Padrão
-                  </h3>
-                </div>
-
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Atendimento especializado conduzido por Mathias Lopez e João Pedro Lopez,
-                  focado em imóveis residenciais localizados nas regiões mais valorizadas
-                  da Zona Sul de São Paulo.
-                </p>
-
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-2 text-foreground">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    Vila Mariana
-                  </li>
-
-                  <li className="flex items-center gap-2 text-foreground">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    Chácara Klabin
-                  </li>
-
-                  <li className="flex items-center gap-2 text-foreground">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    Jardins
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-card p-10 rounded-sm border border-border hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-gold/10 rounded-sm">
-                    <Building2 className="h-6 w-6 text-gold" />
-                  </div>
-
-                  <h3 className="font-serif text-2xl font-semibold text-foreground">
-                    Corporativo e Patrimonial
-                  </h3>
-                </div>
-
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Segmento conduzido por André Lopez, com atuação estratégica em operações
-                  imobiliárias complexas e gestão patrimonial para investidores e empresas.
-                </p>
-
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-2 text-foreground">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    Galpões Logísticos
-                  </li>
-
-                  <li className="flex items-center gap-2 text-foreground">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    Terrenos para Incorporação
-                  </li>
-
-                  <li className="flex items-center gap-2 text-foreground">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                    Lojas com Renda
-                  </li>
-                </ul>
-              </div>
-
-            </div>
+            <div className="areas-intro"><div><p className="text-gold text-sm uppercase tracking-[0.25em] mb-5 font-medium">Áreas de atuação</p><h2 className="font-serif text-4xl md:text-6xl font-semibold leading-[1.05] text-foreground">Duas frentes.<br /><span className="text-gold">Uma visão estratégica.</span></h2></div><p className="areas-lead">A VJM atua no encontro entre imóveis, negócios e patrimônio. Mais do que apresentar ativos, conectamos cada oportunidade ao objetivo de quem investe.</p></div>
+            <div className="areas-fronts"><article className="area-front area-front-corporate"><span className="area-index">01 / 02</span><h3>Corporativo</h3><p>Imóveis comerciais e oportunidades estratégicas para empresas e investidores, conectando cada cliente a ativos com localização, demanda, potencial de valorização e geração de renda.</p><span className="area-arrow">↗</span></article><div className="areas-connector"><span>VJM</span><i /></div><article className="area-front area-front-patrimonial"><span className="area-index">02 / 02</span><h3>Patrimonial</h3><p>Estratégias imobiliárias para clientes que buscam construir, preservar e ampliar patrimônio através de imóveis que façam sentido hoje e continuem fazendo sentido no futuro.</p><span className="area-arrow">↗</span></article></div>
+            <div className="strategy-map" aria-hidden="true"><div className="map-grid" /><svg viewBox="0 0 900 260" preserveAspectRatio="none"><path d="M30 205 C180 180 175 80 330 115 S500 245 625 130 S770 60 870 35" /></svg><span className="map-node node-one">Jardins</span><span className="map-node node-two">Vila Olímpia</span><span className="map-node node-three">Vila Mariana</span><span className="map-caption">Localização · Demanda · Valor</span></div>
+            <div className="strategy-flow"><div className="strategy-heading"><p className="text-gold text-sm uppercase tracking-[0.22em] mb-4 font-medium">Como a VJM pensa e analisa</p><h3 className="font-serif text-3xl md:text-5xl font-semibold leading-tight">Patrimônio com<br /><span className="text-gold">estratégia.</span></h3></div><div className="strategy-copy"><p>Na VJM, nosso trabalho vai além da intermediação imobiliária. Analisamos localização, perfil do imóvel, demanda, potencial de valorização, capacidade de geração de renda e o objetivo de cada investidor.</p><p>A partir disso, buscamos oportunidades que façam sentido para cada cliente.</p><div className="strategy-example"><span className="text-gold text-xs uppercase tracking-[0.2em]">Exemplo de estratégia</span><p>Um investidor pode adquirir um imóvel comercial em uma região estratégica, já locado, e começar a receber a renda do aluguel enquanto mantém um ativo imobiliário em seu patrimônio.</p><a className="investor-cta" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20oportunidades%20imobili%C3%A1rias%20para%20investimento%20e%20gera%C3%A7%C3%A3o%20de%20renda." target="_blank" rel="noreferrer">Falar sobre oportunidades para investidores <span>↗</span></a></div></div></div>
+            <div className="vgv-stage"><div className="vgv-stage-copy"><span className="text-gold text-sm uppercase tracking-[0.22em] font-medium">Resultado em movimento</span><h3 className="font-serif text-3xl md:text-5xl font-semibold">A estratégia<br />se transforma em <span className="text-gold">resultado.</span></h3></div><VgvCounter /></div>
           </div>
         </section>
 
         {/* Featured Properties */}
-        <section id="imoveis" className="py-24 bg-muted scroll-mt-24">
+        <section id="imoveis" className="reveal-section py-24 bg-muted scroll-mt-24">
           <div className="container mx-auto px-6">
 
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -239,7 +170,7 @@ Atendimento personalizado para compra, venda e investimento imobiliário.
         </section>
 
         {/* Services */}
-        <section id="servicos" className="py-24 bg-card scroll-mt-24">
+        <section id="servicos" className="reveal-section py-24 bg-card scroll-mt-24">
           <div className="container mx-auto px-6">
 
             <div className="text-center mb-16">

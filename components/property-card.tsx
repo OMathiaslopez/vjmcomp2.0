@@ -64,7 +64,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
   return (
     <Card
       onClick={() => router.push(`/imoveis/${property.id}`)}
-      className="overflow-hidden group border-0 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="property-card overflow-hidden group border-0 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
     >
 
       {/* IMAGEM */}
@@ -76,6 +76,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        <span className="vjm-watermark" aria-hidden="true">VJM</span>
 
         {/* contador */}
         <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded">
@@ -106,6 +107,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <div className="absolute top-4 left-4">
           <span className="bg-foreground text-gold px-3 py-1.5 text-xs font-medium uppercase tracking-wider">
             {property.type}
+          </span>
+        </div>
+        <div className="absolute bottom-4 left-4">
+          <span className="availability-badge">
+            {property.type.includes("Comercial") || property.type === "Loja" ? "Venda e locação" : "Consulte disponibilidade"}
           </span>
         </div>
 

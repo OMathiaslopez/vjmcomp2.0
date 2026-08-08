@@ -1,0 +1,26 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="600" y1="0" x2="600" y2="1500" gradientUnits="userSpaceOnUse"><stop stop-color="#292923"/><stop offset="1" stop-color="#0F100E"/></linearGradient>
+    <linearGradient id="gold" x1="200" y1="200" x2="1000" y2="1300" gradientUnits="userSpaceOnUse"><stop stop-color="#F1D48A"/><stop offset=".5" stop-color="#B68B3D"/><stop offset="1" stop-color="#E4C36E"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#C9A75B" stop-opacity=".25"/><stop offset="1" stop-color="#C9A75B" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" stroke="#C9A75B" stroke-opacity=".13"/></pattern>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+  <circle cx="870" cy="350" r="440" fill="url(#glow)"/>
+  <path d="M0 320H1200M0 620H1200M0 920H1200M0 1220H1200" stroke="#C9A75B" stroke-opacity=".12"/>
+  <rect x="70" y="90" width="1060" height="1280" fill="url(#grid)" opacity=".45"/>
+  <path d="M80 1160L300 920L450 1010L690 690L850 790L1120 430" stroke="url(#gold)" stroke-width="2" stroke-dasharray="7 12" opacity=".8"/>
+  <circle cx="300" cy="920" r="7" fill="#E4C36E"/><circle cx="690" cy="690" r="7" fill="#E4C36E"/><circle cx="1120" cy="430" r="7" fill="#E4C36E"/>
+  <g fill="#171815" stroke="#C9A75B" stroke-opacity=".5">
+    <path d="M105 1240V590H270V1240H105Z"/><path d="M290 1240V380H470V1240H290Z"/><path d="M500 1240V500H650V1240H500Z"/><path d="M680 1240V245H875V1240H680Z"/><path d="M900 1240V520H1090V1240H900Z"/>
+  </g>
+  <g stroke="#E4C36E" stroke-opacity=".35">
+    <path d="M135 640H240M135 700H240M135 760H240M135 820H240M135 880H240"/><path d="M325 450H435M325 510H435M325 570H435M325 630H435M325 690H435M325 750H435"/><path d="M715 315H840M715 380H840M715 445H840M715 510H840M715 575H840M715 640H840"/>
+  </g>
+  <rect x="74" y="104" width="1052" height="1292" stroke="#C9A75B" stroke-opacity=".45"/>
+  <text x="100" y="190" fill="#E4C36E" font-family="Georgia,serif" font-size="58" letter-spacing="10">VJM</text>
+  <text x="103" y="230" fill="#D6D4C8" font-family="Arial,sans-serif" font-size="12" letter-spacing="5">CONSULTORIA IMOBILIÁRIA</text>
+  <path d="M103 270H350" stroke="#C9A75B"/>
+  <text x="103" y="1330" fill="#E4C36E" font-family="Arial,sans-serif" font-size="13" letter-spacing="4">PATRIMÔNIO · ESTRATÉGIA · SÃO PAULO</text>
+  <text x="103" y="1365" fill="#D6D4C8" font-family="Georgia,serif" font-size="26">Imóveis são patrimônio.</text>
+</svg>

@@ -2,33 +2,63 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("inicio")
+  const pathname = usePathname()
 
-  const goHome = () => {
-    setIsMenuOpen(false)
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection(pathname.startsWith("/imoveis") ? "imoveis" : "")
+      return
+    }
+    const ids = ["sobre", "areas-atuacao", "imoveis", "servicos", "contato"]
+    const updateActiveSection = () => {
+      const current = ids
+        .map((id) => ({ id, top: document.getElementById(id)?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY }))
+        .filter((section) => section.top <= 180)
+        .sort((a, b) => b.top - a.top)[0]
+      setActiveSection(current?.id ?? "inicio")
+    }
+    updateActiveSection()
+    window.addEventListener("scroll", updateActiveSection, { passive: true })
+    return () => window.removeEventListener("scroll", updateActiveSection)
+  }, [pathname])
+
+  const navClass = (id: string) => `nav-item text-sm font-medium hover:text-gold transition-colors ${activeSection === id ? "nav-item-active text-gold" : ""}`
 
   const scrollToSection = (id: string) => {
     setIsMenuOpen(false)
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
+    } else {
+      window.location.href = `/#${id}`
+    }
+  }
+
+  const goToHome = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    setIsMenuOpen(false)
+    if (window.location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    } else {
+      window.location.href = "/"
     }
   }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200">
-      <nav className="container mx-auto px-6 py-4">
+      <nav className="luxury-nav container mx-auto px-6 py-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
 
           {/* LOGO */}
-<Link href="/" className="flex items-center">
+<Link href="/" className="flex items-center" onClick={goToHome}>
   <Image
     src="/images/logo-vjm.png"
     alt="VJM Consultoria Imobiliária"
@@ -44,43 +74,43 @@ export function Header() {
             <Link
               href="/"
               scroll={false}
-              onClick={goHome}
-              className="text-sm font-medium hover:text-gold transition-colors"
+              onClick={goToHome}
+              className={navClass("inicio")}
             >
               Início
             </Link>
 
             <button
               onClick={() => scrollToSection("sobre")}
-              className="text-sm font-medium hover:text-gold transition-colors"
+              className={navClass("sobre")}
             >
               Sobre
             </button>
 
             <button
               onClick={() => scrollToSection("areas-atuacao")}
-              className="text-sm font-medium hover:text-gold transition-colors"
+              className={navClass("areas-atuacao")}
             >
               Áreas de Atuação
             </button>
 
             <button
               onClick={() => scrollToSection("imoveis")}
-              className="text-sm font-medium hover:text-gold transition-colors"
+              className={navClass("imoveis")}
             >
               Imóveis
             </button>
 
             <button
               onClick={() => scrollToSection("servicos")}
-              className="text-sm font-medium hover:text-gold transition-colors"
+              className={navClass("servicos")}
             >
               Nossos Serviços
             </button>
 
             <button
               onClick={() => scrollToSection("contato")}
-              className="text-sm font-medium hover:text-gold transition-colors"
+              className={navClass("contato")}
             >
               Contato
             </button>
@@ -108,43 +138,43 @@ export function Header() {
               <Link
                 href="/"
                 scroll={false}
-                onClick={goHome}
-                className="text-sm font-medium hover:text-gold transition-colors"
+                onClick={goToHome}
+                className={navClass("inicio")}
               >
                 Início
               </Link>
 
               <button
                 onClick={() => scrollToSection("sobre")}
-                className="text-sm font-medium hover:text-gold transition-colors text-left"
+                className={`${navClass("sobre")} text-left`}
               >
                 Sobre
               </button>
 
               <button
                 onClick={() => scrollToSection("areas-atuacao")}
-                className="text-sm font-medium hover:text-gold transition-colors text-left"
+                className={`${navClass("areas-atuacao")} text-left`}
               >
                 Áreas de Atuação
               </button>
 
               <button
                 onClick={() => scrollToSection("imoveis")}
-                className="text-sm font-medium hover:text-gold transition-colors text-left"
+                className={`${navClass("imoveis")} text-left`}
               >
                 Imóveis
               </button>
 
               <button
                 onClick={() => scrollToSection("servicos")}
-                className="text-sm font-medium hover:text-gold transition-colors text-left"
+                className={`${navClass("servicos")} text-left`}
               >
                 Nossos Serviços
               </button>
 
               <button
                 onClick={() => scrollToSection("contato")}
-                className="text-sm font-medium hover:text-gold transition-colors text-left"
+                className={`${navClass("contato")} text-left`}
               >
                 Contato
               </button>

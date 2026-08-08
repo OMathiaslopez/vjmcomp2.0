@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 
 interface Props {
   images: string[]
@@ -13,6 +13,7 @@ interface Props {
 export function PropertyGallery({ images, title, type }: Props) {
 
   const [current, setCurrent] = useState(0)
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
   function next() {
     setCurrent((prev) => (prev + 1) % images.length)
@@ -23,10 +24,10 @@ export function PropertyGallery({ images, title, type }: Props) {
   }
 
   return (
-    <div className="mb-8">
+    <div className="property-gallery mb-8">
 
       {/* FOTO PRINCIPAL */}
-      <div className="relative aspect-[16/10] rounded-sm overflow-hidden">
+      <div className="relative aspect-[16/10] rounded-sm overflow-hidden cursor-zoom-in" onClick={() => setIsLightboxOpen(true)}>
 
         <Image
           src={images[current]}
@@ -35,10 +36,11 @@ export function PropertyGallery({ images, title, type }: Props) {
           className="object-cover"
           priority
         />
+        <span className="vjm-watermark vjm-watermark-large" aria-hidden="true">VJM</span>
 
         {/* seta esquerda */}
         <button
-          onClick={prev}
+          onClick={(event) => { event.stopPropagation(); prev() }}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
         >
           <ChevronLeft className="w-6 h-6" />
@@ -46,7 +48,7 @@ export function PropertyGallery({ images, title, type }: Props) {
 
         {/* seta direita */}
         <button
-          onClick={next}
+          onClick={(event) => { event.stopPropagation(); next() }}
           className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
         >
           <ChevronRight className="w-6 h-6" />
@@ -65,6 +67,19 @@ export function PropertyGallery({ images, title, type }: Props) {
         </div>
 
       </div>
+
+      {isLightboxOpen && (
+        <div className="property-lightbox" role="dialog" aria-modal="true" aria-label={`Visualizando ${title}`} onClick={() => setIsLightboxOpen(false)}>
+          <button className="property-lightbox-close" onClick={() => setIsLightboxOpen(false)} aria-label="Fechar imagem"><X /></button>
+          <button className="property-lightbox-arrow left" onClick={(event) => { event.stopPropagation(); prev() }} aria-label="Foto anterior"><ChevronLeft /></button>
+          <div className="property-lightbox-image" onClick={(event) => event.stopPropagation()}>
+            <Image src={images[current]} alt={`${title} foto ampliada`} fill className="object-contain" sizes="90vw" />
+            <span className="vjm-watermark vjm-watermark-large" aria-hidden="true">VJM</span>
+          </div>
+          <button className="property-lightbox-arrow right" onClick={(event) => { event.stopPropagation(); next() }} aria-label="Próxima foto"><ChevronRight /></button>
+          <span className="property-lightbox-count">{current + 1} / {images.length}</span>
+        </div>
+      )}
 
       {/* MINIATURAS DAS FOTOS */}
       <div className="flex gap-2 mt-4 overflow-x-auto">
@@ -87,6 +102,7 @@ export function PropertyGallery({ images, title, type }: Props) {
               fill
               className="object-cover"
             />
+            <span className="vjm-watermark vjm-watermark-thumb" aria-hidden="true">VJM</span>
 
           </button>
 

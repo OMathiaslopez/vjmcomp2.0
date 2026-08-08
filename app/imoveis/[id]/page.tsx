@@ -71,11 +71,22 @@ export default async function PropertyPage({ params }: PageProps) {
 
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: property.title,
+    description: property.description,
+    url: `https://www.vjmconsultoria.com.br/imoveis/${property.id}`,
+    image: images,
+    address: { "@type": "PostalAddress", addressLocality: property.region, addressCountry: "BR" },
+  }
+
   return (
     <>
       <Header />
 
-      <main className="min-h-screen pt-20">
+        <main className="min-h-screen pt-28">
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
         <section className="py-6 bg-muted border-b border-border">
           <div className="container mx-auto px-6">
@@ -109,9 +120,12 @@ export default async function PropertyPage({ params }: PageProps) {
                     {property.region}
                   </div>
 
-                  <h1 className="text-4xl font-bold">
-                    {property.title}
-                  </h1>
+                   <h1 className="text-4xl font-bold">
+                     {property.title}
+                   </h1>
+                   <span className="availability-badge availability-badge-detail">
+                     {property.type.includes("Comercial") || property.type === "Loja" ? "Venda e locação" : "Consulte disponibilidade"}
+                   </span>
 
                 </div>
 
@@ -159,7 +173,7 @@ export default async function PropertyPage({ params }: PageProps) {
 
               <div>
 
-                <div className="sticky top-28 border p-8 rounded">
+                <div className="property-header-card sticky top-28 border p-8 rounded">
 
                   <h3 className="text-xl font-semibold mb-6">
                     Interessado neste imóvel?
@@ -175,7 +189,7 @@ export default async function PropertyPage({ params }: PageProps) {
                     </Button>
 
                     <Button asChild variant="outline" className="w-full">
-                      <Link href="/contato">
+                    <Link href="/#contato">
                         <Calendar className="mr-2 h-5 w-5" />
                         Agendar visita
                       </Link>
