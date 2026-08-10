@@ -14,10 +14,10 @@ export function Header() {
 
   useEffect(() => {
     if (pathname !== "/") {
-      setActiveSection(pathname.startsWith("/imoveis") ? "imoveis" : "")
+      setActiveSection(pathname.startsWith("/imoveis") ? "imoveis" : pathname.startsWith("/operacoes") ? "operacoes" : "")
       return
     }
-    const ids = ["sobre", "areas-atuacao", "imoveis", "servicos", "contato"]
+    const ids = ["sobre", "imoveis", "servicos", "operacoes", "contato"]
     const updateActiveSection = () => {
       const current = ids
         .map((id) => ({ id, top: document.getElementById(id)?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY }))
@@ -88,13 +88,6 @@ export function Header() {
             </button>
 
             <button
-              onClick={() => scrollToSection("areas-atuacao")}
-              className={navClass("areas-atuacao")}
-            >
-              Áreas de Atuação
-            </button>
-
-            <button
               onClick={() => scrollToSection("imoveis")}
               className={navClass("imoveis")}
             >
@@ -107,6 +100,8 @@ export function Header() {
             >
               Nossos Serviços
             </button>
+
+            <button onClick={() => scrollToSection("operacoes")} className={navClass("operacoes")}>Operações</button>
 
             <button
               onClick={() => scrollToSection("contato")}
@@ -152,13 +147,6 @@ export function Header() {
               </button>
 
               <button
-                onClick={() => scrollToSection("areas-atuacao")}
-                className={`${navClass("areas-atuacao")} text-left`}
-              >
-                Áreas de Atuação
-              </button>
-
-              <button
                 onClick={() => scrollToSection("imoveis")}
                 className={`${navClass("imoveis")} text-left`}
               >
@@ -171,6 +159,8 @@ export function Header() {
               >
                 Nossos Serviços
               </button>
+
+              <button onClick={() => scrollToSection("operacoes")} className={`${navClass("operacoes")} text-left`}>Operações</button>
 
               <button
                 onClick={() => scrollToSection("contato")}

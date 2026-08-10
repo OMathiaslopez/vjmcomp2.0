@@ -234,6 +234,13 @@ Atendimento personalizado para compra, venda e investimento imobiliário.
           </div>
         </section>
 
+        <section id="operacoes" className="bg-foreground px-6 py-20 text-white scroll-mt-24 md:py-28">
+          <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[.8fr_1.2fr] md:items-end">
+            <div><p className="mb-4 text-xs uppercase tracking-[0.28em] text-gold">Operações VJM</p><h2 className="font-serif text-4xl md:text-6xl">Patrimônio em movimento.</h2></div>
+            <div className="border-l border-gold pl-6 md:pl-10"><p className="max-w-xl text-lg leading-relaxed text-white/65">Apresentamos as operações construídas pela VJM para transformar imóveis em patrimônio, renda e valorização.</p><Link href="/operacoes" className="mt-6 inline-flex items-center gap-2 border-b border-gold pb-2 text-sm text-gold">Conhecer operações <ArrowRight className="h-4 w-4" /></Link></div>
+          </div>
+        </section>
+
         <ConsultantsSection />
 
       </main>
