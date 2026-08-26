@@ -74,8 +74,8 @@ export function Footer() {
                 </li>
                 <li>
                   <Instagram className="h-3.5 w-3.5" />
-                  <a href="https://instagram.com/vjm.consultori" target="_blank" rel="noopener noreferrer">
-                    @vjm.consultori
+                  <a href="https://instagram.com/vjm.consultoria" target="_blank" rel="noopener noreferrer">
+                    @vjm.consultoria
                   </a>
                 </li>
               </ul>
