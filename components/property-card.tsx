@@ -64,7 +64,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
   return (
     <Card
       onClick={() => router.push(`/imoveis/${property.id}`)}
-      className="property-card overflow-hidden group border-0 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="property-card property-card-3d group cursor-pointer overflow-hidden border border-border/60 bg-card shadow-none transition-shadow duration-300 hover:shadow-lg"
     >
 
       {/* IMAGEM */}
@@ -117,18 +117,18 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
       </div>
 
-      <CardContent className="p-6">
+      <CardContent className="p-5">
 
-        <div className="flex items-center gap-2 text-muted-foreground mb-2">
-          <MapPin className="h-4 w-4" />
-          <span className="text-sm">{property.region}</span>
+        <div className="mb-1.5 flex items-center gap-2 text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5" />
+          <span className="text-xs tracking-wide">{property.region}</span>
         </div>
 
-        <h3 className="font-serif text-xl font-semibold text-foreground mb-3">
+        <h3 className="mb-3 font-serif text-lg font-semibold text-foreground">
           {property.title}
         </h3>
 
-        <div className="flex items-center gap-6 text-sm text-muted-foreground mb-4">
+        <div className="mb-4 flex items-center gap-5 text-sm text-muted-foreground">
 
           <div className="flex items-center gap-1.5">
             <Bed className="h-4 w-4" />

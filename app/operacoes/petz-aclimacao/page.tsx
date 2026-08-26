@@ -1,0 +1,43 @@
+import Link from "next/link"
+import { ArrowLeft, Calendar, Car, MapPin, Maximize, MessageCircle } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { PropertyGallery } from "@/components/property-gallery"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
+
+const images = [
+  "/images/operacao-petz-hoje.png",
+  "/images/operacao-petz-antes.png",
+  "/images/operacao-petz-localizacao.png",
+]
+
+export default function Deck03Page() {
+  const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Tenho interesse na operação Petz Aclimação.")}`
+
+  return (
+    <>
+      <Header />
+      <main className="min-h-screen pt-[4.25rem]">
+        <section className="border-b border-border bg-muted py-6">
+          <div className="container mx-auto px-6"><Link href="/operacoes" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Voltar para Operações</Link></div>
+        </section>
+        <section className="py-12"><div className="container mx-auto px-6"><div className="grid gap-12 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <PropertyGallery images={images} title="Petz Aclimação" type="Operação realizada" contain />
+            <div className="mb-8"><div className="mb-3 flex items-center gap-2 text-muted-foreground"><MapPin className="h-5 w-5" /> Rua Muniz de Sousa, 450 · Aclimação, São Paulo</div><h1 className="text-4xl font-bold">Petz Aclimação</h1><span className="availability-badge availability-badge-detail">Operação realizada</span></div>
+            <div className="mb-8 grid grid-cols-2 gap-6 rounded bg-muted p-6 md:grid-cols-4">
+              <div className="text-center"><MapPin className="mx-auto mb-2 h-6 w-6" /><p className="text-sm text-muted-foreground">Localização</p><p className="text-xl font-semibold">Aclimação</p></div>
+              <div className="text-center"><Maximize className="mx-auto mb-2 h-6 w-6" /><p className="text-sm text-muted-foreground">Endereço</p><p className="text-xl font-semibold">Rua Pedroso, 258</p></div>
+              <div className="text-center"><Car className="mx-auto mb-2 h-6 w-6" /><p className="text-sm text-muted-foreground">Status</p><p className="text-xl font-semibold">Concluída</p></div>
+              <div className="text-center"><Calendar className="mx-auto mb-2 h-6 w-6" /><p className="text-sm text-muted-foreground">Categoria</p><p className="text-xl font-semibold">Comercial</p></div>
+            </div>
+            <div className="mb-10"><h2 className="mb-4 text-2xl font-semibold">Descrição</h2><p className="leading-relaxed text-muted-foreground">A operação Petz Aclimação transformou o imóvel existente em uma nova ocupação comercial. A VJM conduziu a mudança de identidade e uso do endereço, valorizando sua localização e criando uma presença adequada para a nova operação.</p></div>
+          </div>
+          <div><div className="property-header-card sticky top-28 rounded border p-8"><h3 className="mb-6 text-xl font-semibold">Conheça esta operação</h3><div className="space-y-4"><Button asChild className="w-full bg-gold text-black hover:bg-gold/90"><a href={whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle className="mr-2 h-5 w-5" /> Falar no WhatsApp</a></Button><Button asChild variant="outline" className="w-full"><Link href="/#contato"><Calendar className="mr-2 h-5 w-5" /> Entrar em contato</Link></Button></div></div></div>
+        </div></div></section>
+      </main>
+      <Footer /><WhatsAppButton />
+    </>
+  )
+}

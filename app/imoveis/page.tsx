@@ -31,7 +31,7 @@ export default function ImoveisPage() {
     <>
       <Header />
 
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen pt-[4.25rem]">
 
         <section className="py-20 bg-muted">
           <div className="container mx-auto px-6">

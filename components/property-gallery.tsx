@@ -8,9 +8,10 @@ interface Props {
   images: string[]
   title: string
   type: string
+  contain?: boolean
 }
 
-export function PropertyGallery({ images, title, type }: Props) {
+export function PropertyGallery({ images, title, type, contain = false }: Props) {
 
   const [current, setCurrent] = useState(0)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
@@ -33,7 +34,7 @@ export function PropertyGallery({ images, title, type }: Props) {
           src={images[current]}
           alt={`${title} foto`}
           fill
-          className="object-cover"
+          className={contain ? "object-contain bg-muted" : "object-cover"}
           priority
         />
         <span className="vjm-watermark vjm-watermark-large" aria-hidden="true">VJM</span>

@@ -85,7 +85,7 @@ export default async function PropertyPage({ params }: PageProps) {
     <>
       <Header />
 
-        <main className="min-h-screen pt-28">
+        <main className="min-h-screen pt-[4.25rem]">
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
         <section className="py-6 bg-muted border-b border-border">
