@@ -63,7 +63,7 @@ export default async function PropertyPage({ params }: PageProps) {
       ? property.images
       : [property.image]
 
-  const whatsappNumber = "5511999999999"
+  const whatsappNumber = "5511978392241"
 
   const message = encodeURIComponent(
     `Olá! Tenho interesse no imóvel: ${property.title} - ${property.region}`

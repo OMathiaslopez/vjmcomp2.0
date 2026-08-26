@@ -13,7 +13,7 @@ const images = [
 ]
 
 export default function Deck03Page() {
-  const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Tenho interesse na operação Petz Aclimação.")}`
+  const whatsappUrl = `https://wa.me/5511978392241?text=${encodeURIComponent("Olá! Tenho interesse na operação Petz Aclimação.")}`
 
   return (
     <>

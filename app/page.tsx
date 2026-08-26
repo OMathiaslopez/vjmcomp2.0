@@ -256,7 +256,7 @@ export default function HomePage() {
                     </p>
                     <a
                       className="investor-cta"
-                      href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20oportunidades%20imobili%C3%A1rias%20para%20investimento%20e%20gera%C3%A7%C3%A3o%20de%20renda."
+                      href="https://wa.me/5511978392241?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20oportunidades%20imobili%C3%A1rias%20para%20investimento%20e%20gera%C3%A7%C3%A3o%20de%20renda."
                       target="_blank"
                       rel="noreferrer"
                     >

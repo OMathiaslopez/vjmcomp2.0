@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin, Phone, Mail } from "lucide-react"
+import { MapPin, Phone, Mail, Instagram } from "lucide-react"
 
 const navLinks = [
   { href: "/", label: "Início" },
@@ -71,6 +71,12 @@ export function Footer() {
                 <li>
                   <Mail className="h-3.5 w-3.5" />
                   <a href="mailto:contato@vjmimoveis.com.br">contato@vjmimoveis.com.br</a>
+                </li>
+                <li>
+                  <Instagram className="h-3.5 w-3.5" />
+                  <a href="https://instagram.com/vjm.consultori" target="_blank" rel="noopener noreferrer">
+                    @vjm.consultori
+                  </a>
                 </li>
               </ul>
             </div>
