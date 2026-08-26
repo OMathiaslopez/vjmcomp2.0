@@ -70,7 +70,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Mail className="h-3.5 w-3.5" />
-                  <a href="mailto:contato@vjmimoveis.com.br">contato@vjmimoveis.com.br</a>
+                  <a href="mailto:contato@vjmconsultoria.com.br">contato@vjmconsultoria.com.br</a>
                 </li>
                 <li>
                   <Instagram className="h-3.5 w-3.5" />
