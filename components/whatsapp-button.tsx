@@ -1,9 +1,11 @@
 "use client"
 
 import { MessageCircle } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export function WhatsAppButton() {
-  const whatsappNumber = "5511978392241"
+  const [whatsappNumber, setWhatsappNumber] = useState("5511978392241")
+  useEffect(() => { fetch("/api/settings").then((response) => response.json()).then((settings) => settings.whatsapp && setWhatsappNumber(settings.whatsapp)).catch(() => {}) }, [])
   const message = encodeURIComponent("Olá! Gostaria de mais informações sobre os imóveis disponíveis.")
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
 

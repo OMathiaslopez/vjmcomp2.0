@@ -16,8 +16,9 @@ import { Button } from "@/components/ui/button"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
+import { SharePropertyButton } from "@/components/share-property-button"
 
-import { properties, getPropertyById } from "@/lib/properties"
+import { getPublicProperties, getPublicPropertyById } from "@/lib/public-properties"
 import type { Metadata } from "next"
 
 export const dynamic = "force-dynamic"
@@ -27,7 +28,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return properties.map((property) => ({
+  return (await getPublicProperties()).map((property) => ({
     id: property.id,
   }))
 }
@@ -35,7 +36,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
 
   const { id } = await params
-  const property = getPropertyById(id)
+  const property = await getPublicPropertyById(id)
 
   if (!property) {
     return {
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function PropertyPage({ params }: PageProps) {
 
   const { id } = await params
-  const property = getPropertyById(id)
+  const property = await getPublicPropertyById(id)
 
   if (!property) {
     notFound()
@@ -70,6 +71,7 @@ export default async function PropertyPage({ params }: PageProps) {
   )
 
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
+  const isCommercial = property.type.includes("Comercial") || property.type === "Loja"
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -89,7 +91,7 @@ export default async function PropertyPage({ params }: PageProps) {
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
         <section className="py-6 bg-muted border-b border-border">
-          <div className="container mx-auto px-6">
+           <div className="container mx-auto px-4 sm:px-6">
             <Link
               href="/imoveis"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
@@ -101,9 +103,9 @@ export default async function PropertyPage({ params }: PageProps) {
         </section>
 
         <section className="py-12">
-          <div className="container mx-auto px-6">
+           <div className="container mx-auto px-4 sm:px-6">
 
-            <div className="grid lg:grid-cols-3 gap-12">
+             <div className="grid gap-8 lg:grid-cols-3 lg:gap-12">
 
               <div className="lg:col-span-2">
 
@@ -115,12 +117,12 @@ export default async function PropertyPage({ params }: PageProps) {
 
                 <div className="mb-8">
 
-                  <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                    <MapPin className="h-5 w-5" />
-                    {property.region}
-                  </div>
+                   <div className="mb-3 flex items-start gap-2 text-muted-foreground">
+                     <MapPin className="h-5 w-5" />
+                     <span className="min-w-0 break-words">{property.region}</span>
+                   </div>
 
-                   <h1 className="text-4xl font-bold">
+                    <h1 className="break-words text-3xl font-bold sm:text-4xl">
                      {property.title}
                    </h1>
                    <span className="availability-badge availability-badge-detail">
@@ -137,13 +139,15 @@ export default async function PropertyPage({ params }: PageProps) {
                     <p className="text-sm text-muted-foreground">Área</p>
                   </div>
 
-                  <div className="text-center">
-                    <Bed className="h-6 w-6 mx-auto mb-2" />
-                    <p className="text-xl font-semibold">{property.bedrooms}</p>
-                    <p className="text-sm text-muted-foreground">Quartos</p>
-                  </div>
+                   {!isCommercial && (
+                     <div className="text-center">
+                       <Bed className="h-6 w-6 mx-auto mb-2" />
+                       <p className="text-xl font-semibold">{property.bedrooms}</p>
+                       <p className="text-sm text-muted-foreground">Quartos</p>
+                     </div>
+                   )}
 
-                  <div className="text-center">
+                   <div className="text-center">
                     <Bath className="h-6 w-6 mx-auto mb-2" />
                     <p className="text-xl font-semibold">{property.bathrooms}</p>
                     <p className="text-sm text-muted-foreground">Banheiros</p>
@@ -173,7 +177,7 @@ export default async function PropertyPage({ params }: PageProps) {
 
               <div>
 
-                <div className="property-header-card sticky top-28 border p-8 rounded">
+                 <div className="property-header-card rounded border p-5 sm:p-8 lg:sticky lg:top-28">
 
                   <h3 className="text-xl font-semibold mb-6">
                     Interessado neste imóvel?
@@ -194,6 +198,8 @@ export default async function PropertyPage({ params }: PageProps) {
                         Agendar visita
                       </Link>
                     </Button>
+
+                    <SharePropertyButton title={property.title} />
 
                   </div>
 

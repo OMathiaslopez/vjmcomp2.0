@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Instagram } from "lucide-react"
+import { useEffect, useState } from "react"
 
 const navLinks = [
   { href: "/", label: "Início" },
@@ -14,6 +17,8 @@ const navLinks = [
 const regions = ["Jardins", "Vila Mariana", "Moema", "Itaim Bibi", "Vila Olímpia", "Chácara Klabin"]
 
 export function Footer() {
+  const [settings, setSettings] = useState({ phone: "11 97839-2241", email: "contato@vjmconsultoria.com.br", instagram: "https://instagram.com/vjm.consultoria" })
+  useEffect(() => { fetch("/api/settings").then((response) => response.json()).then(setSettings).catch(() => {}) }, [])
   return (
     <footer className="site-footer">
       <div className="site-footer-inner">
@@ -66,16 +71,16 @@ export function Footer() {
                 </li>
                 <li>
                   <Phone className="h-3.5 w-3.5" />
-                  <a href="tel:+5511978392241">(11) 97839-2241</a>
+                  <a href={`tel:${settings.phone.replace(/\D/g, "")}`}>{settings.phone}</a>
                 </li>
                 <li>
                   <Mail className="h-3.5 w-3.5" />
-                  <a href="mailto:contato@vjmconsultoria.com.br">contato@vjmconsultoria.com.br</a>
+                  <a href={`mailto:${settings.email}`}>{settings.email}</a>
                 </li>
                 <li>
                   <Instagram className="h-3.5 w-3.5" />
-                  <a href="https://instagram.com/vjm.consultoria" target="_blank" rel="noopener noreferrer">
-                    @vjm.consultoria
+                  <a href={settings.instagram} target="_blank" rel="noopener noreferrer">
+                    {settings.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@").replace(/\/$/, "")}
                   </a>
                 </li>
               </ul>

@@ -28,7 +28,7 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
     <div className="property-gallery mb-8">
 
       {/* FOTO PRINCIPAL */}
-      <div className="relative aspect-[16/10] rounded-sm overflow-hidden cursor-zoom-in" onClick={() => setIsLightboxOpen(true)}>
+      <div className="relative aspect-[4/3] overflow-hidden rounded-sm cursor-zoom-in sm:aspect-[16/10]" onClick={() => setIsLightboxOpen(true)}>
 
         <Image
           src={images[current]}
@@ -42,7 +42,9 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
         {/* seta esquerda */}
         <button
           onClick={(event) => { event.stopPropagation(); prev() }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
+          type="button"
+          aria-label="Foto anterior"
+          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 sm:left-4"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -50,7 +52,9 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
         {/* seta direita */}
         <button
           onClick={(event) => { event.stopPropagation(); next() }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
+          type="button"
+          aria-label="Próxima foto"
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 sm:right-4"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
@@ -71,13 +75,13 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
 
       {isLightboxOpen && (
         <div className="property-lightbox" role="dialog" aria-modal="true" aria-label={`Visualizando ${title}`} onClick={() => setIsLightboxOpen(false)}>
-          <button className="property-lightbox-close" onClick={() => setIsLightboxOpen(false)} aria-label="Fechar imagem"><X /></button>
-          <button className="property-lightbox-arrow left" onClick={(event) => { event.stopPropagation(); prev() }} aria-label="Foto anterior"><ChevronLeft /></button>
+           <button type="button" className="property-lightbox-close" onClick={() => setIsLightboxOpen(false)} aria-label="Fechar imagem"><X /></button>
+           <button type="button" className="property-lightbox-arrow left" onClick={(event) => { event.stopPropagation(); prev() }} aria-label="Foto anterior"><ChevronLeft /></button>
           <div className="property-lightbox-image" onClick={(event) => event.stopPropagation()}>
             <Image src={images[current]} alt={`${title} foto ampliada`} fill className="object-contain" sizes="90vw" />
             <span className="vjm-watermark vjm-watermark-large" aria-hidden="true">VJM</span>
           </div>
-          <button className="property-lightbox-arrow right" onClick={(event) => { event.stopPropagation(); next() }} aria-label="Próxima foto"><ChevronRight /></button>
+           <button type="button" className="property-lightbox-arrow right" onClick={(event) => { event.stopPropagation(); next() }} aria-label="Próxima foto"><ChevronRight /></button>
           <span className="property-lightbox-count">{current + 1} / {images.length}</span>
         </div>
       )}
@@ -90,7 +94,8 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`relative w-24 h-16 flex-shrink-0 rounded overflow-hidden border ${
+             type="button"
+             className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded border ${
               current === index
                 ? "border-gold"
                 : "border-transparent"

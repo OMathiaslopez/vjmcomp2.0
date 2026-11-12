@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
@@ -12,6 +12,7 @@ export default function OperacoesPage() {
       <main className="bg-[#f8f8f5] pt-[4.25rem]">
         <section className="bg-foreground px-6 py-20 text-white md:py-28">
           <div className="mx-auto max-w-6xl">
+            <Link href="/" className="mb-8 inline-flex items-center gap-2 text-sm text-white/65 transition-colors hover:text-gold"><ArrowLeft className="h-4 w-4" /> Voltar para a página inicial</Link>
             <p className="mb-4 text-[11px] uppercase tracking-[0.28em] text-gold">VJM · Operações</p>
             <h1 className="max-w-3xl font-serif text-4xl font-semibold leading-[1.05] md:text-6xl">Experiência que gera valor.</h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-white/55">Operações construídas pela VJM para transformar imóveis em patrimônio, renda e valorização.</p>

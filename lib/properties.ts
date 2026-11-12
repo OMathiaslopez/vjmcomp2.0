@@ -1,4 +1,4 @@
-import { Property } from "@/components/property-card"
+import type { Property } from "@/components/property-card"
 
 export const properties: Property[] = [
 {

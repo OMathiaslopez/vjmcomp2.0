@@ -13,13 +13,21 @@ import { PropertyCard } from "@/components/property-card"
 import { ConsultantsSection } from "@/components/consultants-section"
 import { ScrollReveal, StaggerItem, StaggerReveal, TiltCard } from "@/components/scroll-reveal"
 import { properties } from "@/lib/properties"
+import type { Property } from "@/components/property-card"
+import { useEffect, useState } from "react"
 
 const HeroScene = dynamic(() => import("@/components/hero-scene").then((m) => m.HeroScene), {
   ssr: false,
 })
 
 export default function HomePage() {
-  const featuredProperties = properties.slice(0, 3)
+  const [publicProperties, setPublicProperties] = useState<Property[]>(properties)
+  useEffect(() => {
+    fetch("/api/properties").then((response) => response.ok ? response.json() : null).then((data) => {
+      if (data) setPublicProperties(data)
+    }).catch(() => {})
+  }, [])
+  const featuredProperties = publicProperties.slice(0, 3)
 
   return (
     <>
@@ -342,7 +350,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="operacoes" className="scroll-mt-24 bg-foreground px-6 py-16 text-white md:py-20">
+        <section id="operacoes" className="operations-feature scroll-mt-24 bg-[#171715] px-6 py-20 text-white md:py-28">
           <ScrollReveal>
             <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-[.85fr_1.15fr] md:items-end">
               <div>
@@ -361,6 +369,24 @@ export default function HomePage() {
                   Conhecer operações <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
+            </div>
+            <div className="mx-auto mt-12 grid max-w-6xl gap-4 sm:grid-cols-3">
+              {[
+                ["/images/operacao-petz-hoje.png", "Petz Aclimação", "Aclimação", "/operacoes/petz-aclimacao"],
+                ["/images/operacao-pedroso-hoje.png", "Deck03", "Bela Vista", "/operacoes/deck03"],
+                ["/images/operacao-jeep-hoje.png", "Jeep Mooca", "Mooca", "/operacoes/jeep-mooca"],
+              ].map(([image, title, region, href], index) => (
+                <Link key={title} href={href} className="group relative overflow-hidden border border-white/15 bg-black/30">
+                  <div className="relative aspect-[4/3]">
+                    <Image src={image} alt={title} fill className="object-cover opacity-80 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-5">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gold">Operação {String(index + 1).padStart(2, "0")} · {region}</p>
+                      <h3 className="mt-2 font-serif text-2xl font-semibold">{title}</h3>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </ScrollReveal>
         </section>

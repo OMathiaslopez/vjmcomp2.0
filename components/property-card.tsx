@@ -60,6 +60,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
   )
 
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`
+  const isCommercial = property.type.includes("Comercial") || property.type === "Loja"
 
   return (
     <Card
@@ -130,10 +131,12 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
         <div className="mb-4 flex items-center gap-5 text-sm text-muted-foreground">
 
-          <div className="flex items-center gap-1.5">
-            <Bed className="h-4 w-4" />
-            <span>{property.bedrooms}</span>
-          </div>
+          {!isCommercial && (
+            <div className="flex items-center gap-1.5">
+              <Bed className="h-4 w-4" />
+              <span>{property.bedrooms}</span>
+            </div>
+          )}
 
           <div className="flex items-center gap-1.5">
             <Car className="h-4 w-4" />

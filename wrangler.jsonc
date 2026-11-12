@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vjmconsultoria",
+  "account_id": "b87ced46b307cde7bab43b415ca26e20",
+  "compatibility_date": "2026-11-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": ".open-next/worker.js",
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "routes": [
+    { "pattern": "vjmconsultoria.com.br/*", "zone_name": "vjmconsultoria.com.br" },
+    { "pattern": "www.vjmconsultoria.com.br/*", "zone_name": "vjmconsultoria.com.br" }
+  ],
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "vjmconsultoria",
+    "database_id": "8962c3ff-5170-4df8-922c-36fd41fbccc3",
+    "migrations_dir": "migrations"
+  }]
+}

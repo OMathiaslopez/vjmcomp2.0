@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { useEffect, useState } from "react"
 import { Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollReveal, StaggerItem, StaggerReveal, TiltCard } from "@/components/scroll-reveal"
@@ -27,6 +28,8 @@ const consultants = [
 ]
 
 export function ConsultantsSection() {
+  const [items, setItems] = useState(consultants)
+  useEffect(() => { fetch("/api/settings").then((response) => response.json()).then((settings) => settings.consultants?.length && setItems(settings.consultants)).catch(() => {}) }, [])
   return (
     <section id="contato" className="scroll-mt-24 bg-foreground py-20 md:py-24">
       <div className="container mx-auto px-6">
@@ -43,7 +46,7 @@ export function ConsultantsSection() {
         </ScrollReveal>
 
         <StaggerReveal className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
-          {consultants.map((consultant) => (
+          {items.map((consultant) => (
             <StaggerItem key={consultant.name}>
               <TiltCard className="consultant-card-3d group overflow-hidden rounded-sm border border-primary-foreground/15 bg-[#171715] text-center">
                 <div className="relative aspect-[4/5] overflow-hidden">
