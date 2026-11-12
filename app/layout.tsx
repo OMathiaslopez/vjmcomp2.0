@@ -5,6 +5,12 @@ import "./globals.css"
 import { IntroLoader } from "@/components/intro-loader"
 import { SmoothProvider } from "@/components/smooth-provider"
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+}
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-serif",
