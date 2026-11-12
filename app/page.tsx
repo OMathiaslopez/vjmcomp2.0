@@ -363,7 +363,7 @@ export default function HomePage() {
                   valorização.
                 </p>
                 <Link
-                  href="/operacoes"
+                  href="/#operacoes"
                   className="mt-5 inline-flex items-center gap-2 border-b border-gold pb-1.5 text-sm text-gold transition-all hover:gap-3"
                 >
                   Conhecer operações <ArrowRight className="h-4 w-4" />
