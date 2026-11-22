@@ -168,11 +168,24 @@ export default async function PropertyPage({ params }: PageProps) {
                     Descrição
                   </h2>
 
-                  <p className="text-muted-foreground leading-relaxed">
-                    {property.description}
-                  </p>
+                 <p className="text-muted-foreground leading-relaxed">
+                     {property.description}
+                   </p>
 
-                </div>
+                   {!!property.features?.length && (
+                     <div className="mt-8">
+                       <h2 className="mb-4 text-2xl font-semibold">Características</h2>
+                       <div className="flex flex-wrap gap-2">
+                         {property.features.map((feature) => (
+                           <span key={feature} className="rounded border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
+                             {feature}
+                           </span>
+                         ))}
+                       </div>
+                     </div>
+                   )}
+
+                 </div>
 
               </div>
 
