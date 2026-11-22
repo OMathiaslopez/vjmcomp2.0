@@ -32,8 +32,15 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
 
         <img
           src={images[current]}
+          alt=""
+          aria-hidden="true"
+          className="property-gallery-main-background"
+        />
+
+        <img
+          src={images[current]}
           alt={`${title} foto`}
-          className="block h-auto w-full max-w-full object-contain bg-muted"
+          className="property-gallery-main-image"
         />
         <span className="vjm-watermark vjm-watermark-large" aria-hidden="true">VJM</span>
 

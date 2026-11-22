@@ -199,6 +199,36 @@ select:focus, select:hover { border-color: var(--gold); box-shadow: 0 8px 24px r
 .property-gallery { overflow: hidden; }
 .property-gallery-main { overflow: hidden; }
 .property-gallery-main > img { display: block; height: auto; max-width: 100%; width: 100%; }
+.property-gallery-main-background {
+  filter: blur(24px) brightness(.6);
+  height: 100% !important;
+  inset: 0 !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  transform: scale(1.1);
+  width: 100% !important;
+  z-index: 0;
+}
+.property-gallery-main-image {
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  position: relative !important;
+  width: 100% !important;
+  z-index: 1;
+}
+.property-gallery > .property-gallery-main > img.property-gallery-main-background {
+  height: 100% !important;
+  inset: 0 !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  width: 100% !important;
+}
+.property-gallery-main > .vjm-watermark,
+.property-gallery-main > button,
+.property-gallery-main > div { z-index: 2; }
 .property-gallery-thumbnails { -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; scroll-snap-type: x proximity; }
 .property-gallery-thumbnail { flex: 0 0 auto; scroll-snap-align: start; }
 .property-gallery + *,
