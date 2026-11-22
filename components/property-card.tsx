@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Bed, Car, Maximize, MapPin, ChevronLeft, ChevronRight } from "lucide-react"
@@ -20,6 +20,7 @@ export interface Property {
   image: string
   availability?: string
   images?: string[]
+  photoCount?: number
   features?: string[]
 }
 
@@ -27,30 +28,62 @@ interface PropertyCardProps {
   property: Property
 }
 
+const CARD_PHOTO_LIMIT = 3
+
 export function PropertyCard({ property }: PropertyCardProps) {
 
   const router = useRouter()
 
-  const images =
+  const images = (
     property.images && property.images.length > 0
-      ? property.images.slice(0, 3)
+      ? property.images
       : property.image ? [property.image] : ["/images/logo-vjm.png"]
+  ).slice(0, CARD_PHOTO_LIMIT)
 
-  const totalImages = property.images?.length || 1
+  // Total real de fotos do imóvel (a listagem manda só as 3 primeiras + o total)
+  const totalImages = Math.max(
+    property.photoCount ?? property.images?.length ?? 1,
+    images.length
+  )
+  const remaining = totalImages - images.length
+  const hasMoreSlide = remaining > 0
+  const slideCount = images.length + (hasMoreSlide ? 1 : 0)
 
   const [current, setCurrent] = useState(0)
+  const touchStartX = useRef<number | null>(null)
+
+  const isMoreSlide = hasMoreSlide && current === images.length
+  const shownImage = isMoreSlide ? images[images.length - 1] : images[current]
+
+  function goNext() {
+    setCurrent((c) => (c < slideCount - 1 ? c + 1 : c))
+  }
+
+  function goPrev() {
+    setCurrent((c) => (c > 0 ? c - 1 : c))
+  }
 
   function nextImage(e: React.MouseEvent) {
     e.stopPropagation()
-    if (current < images.length - 1) {
-      setCurrent(current + 1)
-    }
+    goNext()
   }
 
   function prevImage(e: React.MouseEvent) {
     e.stopPropagation()
-    if (current > 0) {
-      setCurrent(current - 1)
+    goPrev()
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    touchStartX.current = null
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) goNext()
+      else goPrev()
     }
   }
 
@@ -70,36 +103,58 @@ export function PropertyCard({ property }: PropertyCardProps) {
     >
 
       {/* IMAGEM */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div
+        className="relative aspect-[4/3] overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
 
         <Image
-          src={images[current]}
+          src={shownImage}
           alt={property.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
+            isMoreSlide ? "scale-110 blur-md" : ""
+          }`}
         />
         <span className="vjm-watermark" aria-hidden="true">VJM</span>
 
+        {/* último slide: aviso de fotos restantes */}
+        {isMoreSlide && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/55 px-4 text-center text-white">
+            <span className="text-3xl font-semibold">
+              +{remaining} {remaining === 1 ? "foto" : "fotos"}
+            </span>
+            <span className="mt-1 text-sm">Clique para ver todas</span>
+          </div>
+        )}
+
         {/* contador */}
-        <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded">
-          {current + 1} / {totalImages}
-        </div>
+        {!isMoreSlide && (
+          <div className="absolute bottom-3 right-3 rounded bg-black/60 px-2 py-1 text-xs text-white">
+            {current + 1} / {totalImages}
+          </div>
+        )}
 
         {/* seta esquerda */}
         {current > 0 && (
           <button
+            type="button"
+            aria-label="Foto anterior"
             onClick={prevImage}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white p-2 rounded-full"
+            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white"
           >
             <ChevronLeft size={18} />
           </button>
         )}
 
         {/* seta direita */}
-        {current < images.length - 1 && (
+        {current < slideCount - 1 && (
           <button
+            type="button"
+            aria-label="Próxima foto"
             onClick={nextImage}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white p-2 rounded-full"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-white"
           >
             <ChevronRight size={18} />
           </button>
@@ -153,16 +208,16 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
         <div className="flex gap-3">
 
-<Button
-  onClick={(e) => {
-    e.stopPropagation()
-    router.push(`/imoveis/${property.id}`)
-  }}
-  variant="outline"
-  className="flex-1"
->
-  Ver Detalhes
-</Button>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation()
+              router.push(`/imoveis/${property.id}`)
+            }}
+            variant="outline"
+            className="flex-1"
+          >
+            Ver Detalhes
+          </Button>
 
           <Button
             asChild
