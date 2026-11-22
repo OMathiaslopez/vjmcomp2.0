@@ -18,6 +18,7 @@ export interface Property {
   parking: number
   description: string
   image: string
+  availability?: string
   images?: string[]
   features?: string[]
 }
@@ -33,7 +34,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
   const images =
     property.images && property.images.length > 0
       ? property.images.slice(0, 3)
-      : [property.image]
+      : property.image ? [property.image] : ["/images/logo-vjm.png"]
 
   const totalImages = property.images?.length || 1
 
@@ -112,7 +113,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         </div>
         <div className="absolute bottom-4 left-4">
           <span className="availability-badge">
-            {property.type.includes("Comercial") || property.type === "Loja" ? "Venda e locação" : "Consulte disponibilidade"}
+             {property.availability || (property.type.includes("Comercial") || property.type === "Loja" ? "Venda e locação" : "Consulte disponibilidade")}
           </span>
         </div>
 

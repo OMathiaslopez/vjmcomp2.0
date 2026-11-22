@@ -28,14 +28,12 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
     <div className="property-gallery mb-8">
 
       {/* FOTO PRINCIPAL */}
-      <div className="relative aspect-[4/3] overflow-hidden rounded-sm cursor-zoom-in sm:aspect-[16/10]" onClick={() => setIsLightboxOpen(true)}>
+      <div className="property-gallery-main relative aspect-[4/3] overflow-hidden rounded-sm cursor-zoom-in sm:aspect-[16/10]" onClick={() => setIsLightboxOpen(true)}>
 
-        <Image
+        <img
           src={images[current]}
           alt={`${title} foto`}
-          fill
-          className={contain ? "object-contain bg-muted" : "object-cover"}
-          priority
+          className="block h-auto w-full max-w-full object-contain bg-muted"
         />
         <span className="vjm-watermark vjm-watermark-large" aria-hidden="true">VJM</span>
 
@@ -87,7 +85,7 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
       )}
 
       {/* MINIATURAS DAS FOTOS */}
-      <div className="flex gap-2 mt-4 overflow-x-auto">
+      <div className="property-gallery-thumbnails mt-4 flex max-w-full gap-2 overflow-x-auto">
 
         {images.map((img, index) => (
 
@@ -95,7 +93,7 @@ export function PropertyGallery({ images, title, type, contain = false }: Props)
             key={index}
             onClick={() => setCurrent(index)}
              type="button"
-             className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded border ${
+             className={`property-gallery-thumbnail relative h-16 w-24 flex-shrink-0 overflow-hidden rounded border ${
               current === index
                 ? "border-gold"
                 : "border-transparent"

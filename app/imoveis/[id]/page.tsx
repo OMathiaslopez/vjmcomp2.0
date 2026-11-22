@@ -22,6 +22,7 @@ import { getPublicProperties, getPublicPropertyById } from "@/lib/public-propert
 import type { Metadata } from "next"
 
 export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -62,7 +63,7 @@ export default async function PropertyPage({ params }: PageProps) {
   const images =
     property.images && property.images.length > 0
       ? property.images
-      : [property.image]
+      : property.image ? [property.image] : ["/images/logo-vjm.png"]
 
   const whatsappNumber = "5511978392241"
 
@@ -105,9 +106,9 @@ export default async function PropertyPage({ params }: PageProps) {
         <section className="py-12">
            <div className="container mx-auto px-4 sm:px-6">
 
-             <div className="grid gap-8 lg:grid-cols-3 lg:gap-12">
+             <div className="grid min-w-0 gap-8 lg:grid-cols-3 lg:gap-12">
 
-              <div className="lg:col-span-2">
+               <div className="min-w-0 lg:col-span-2">
 
                 <PropertyGallery
                   images={images}
@@ -126,12 +127,12 @@ export default async function PropertyPage({ params }: PageProps) {
                      {property.title}
                    </h1>
                    <span className="availability-badge availability-badge-detail">
-                     {property.type.includes("Comercial") || property.type === "Loja" ? "Venda e locação" : "Consulte disponibilidade"}
+                      {property.availability || (property.type.includes("Comercial") || property.type === "Loja" ? "Venda e locação" : "Consulte disponibilidade")}
                    </span>
 
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-muted rounded mb-8">
+                 <div className="grid min-w-0 grid-cols-2 gap-6 rounded bg-muted p-6 mb-8 md:grid-cols-4">
 
                   <div className="text-center">
                     <Maximize className="h-6 w-6 mx-auto mb-2" />
@@ -175,7 +176,7 @@ export default async function PropertyPage({ params }: PageProps) {
 
               </div>
 
-              <div>
+               <div className="min-w-0">
 
                  <div className="property-header-card rounded border p-5 sm:p-8 lg:sticky lg:top-28">
 

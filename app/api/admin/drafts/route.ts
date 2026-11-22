@@ -4,7 +4,9 @@ import { getAdminData, getWritableAdminData, updateAdminData } from "@/lib/admin
 
 export async function GET() {
   if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
-  return NextResponse.json(await getAdminData())
+  return NextResponse.json(await getAdminData(), {
+    headers: { "Cache-Control": "no-store, no-cache, must-revalidate" },
+  })
 }
 
 export async function POST(request: Request) {

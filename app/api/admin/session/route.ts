@@ -6,8 +6,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { password } = await request.json().catch(() => ({}))
-  if (!process.env.ADMIN_PASSWORD || password !== process.env.ADMIN_PASSWORD) {
+  const { username, password } = await request.json().catch(() => ({}))
+  const expectedUsername = process.env.ADMIN_USERNAME || "admin"
+  if (username !== expectedUsername || !process.env.ADMIN_PASSWORD || password !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: "Credenciais inválidas" }, { status: 401 })
   }
   const response = NextResponse.json({ authenticated: true })
