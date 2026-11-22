@@ -65,7 +65,14 @@ export default function AdminPanel() {
   }
   useEffect(() => {
     const input = document.querySelector('input[type="file"][accept="image/*"]') as HTMLInputElement | null
-    if (input) input.multiple = true
+    if (!input) return
+    input.multiple = true
+    const handleChange = (event: Event) => {
+      event.stopImmediatePropagation()
+      void readImages(input.files).finally(() => { input.value = "" })
+    }
+    input.addEventListener("change", handleChange, true)
+    return () => input.removeEventListener("change", handleChange, true)
   }, [form])
   const moveImage = (index: number, direction: number) => { const target = index + direction; if (target < 0 || target >= images.length) return; const next = [...images]; [next[index], next[target]] = [next[target], next[index]]; set("images", next) }
   const addTag = () => { if (tag.trim()) { set("features", [...(form?.features || []), tag.trim()]); setTag("") } }
