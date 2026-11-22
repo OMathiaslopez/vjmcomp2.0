@@ -30,15 +30,31 @@ export default function AdminPanel() {
   const set = (name: string, value: any) => setForm((current) => current ? { ...current, [name]: value } : current)
   const images = Array.isArray(form?.images) ? form.images : []
   const addImage = (url: string) => { if (url.trim()) { set("images", [...images, url.trim()]); setImageUrl("") } }
-  const readImages = (files: FileList | null) => {
+  const compressImage = (file: File) => new Promise<string>((resolve, reject) => {
+    const image = new Image()
+    const source = URL.createObjectURL(file)
+    image.onload = () => {
+      const scale = Math.min(1, 1280 / Math.max(image.naturalWidth, image.naturalHeight))
+      const canvas = document.createElement("canvas")
+      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale))
+      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale))
+      canvas.getContext("2d")?.drawImage(image, 0, 0, canvas.width, canvas.height)
+      URL.revokeObjectURL(source)
+      resolve(canvas.toDataURL("image/jpeg", 0.72))
+    }
+    image.onerror = () => { URL.revokeObjectURL(source); reject(new Error("Imagem inválida")) }
+    image.src = source
+  })
+  const readImages = async (files: FileList | null) => {
     if (!files) return
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader()
-      reader.onload = () => addImage(String(reader.result))
-      reader.readAsDataURL(file)
-    })
+    try {
+      const compressed = await Promise.all(Array.from(files).map(compressImage))
+      set("images", [...images, ...compressed])
+    } catch {
+      setMessage("Não foi possível processar uma das imagens selecionadas.")
+    }
   }
-  const readImage = (file: File) => readImages({ 0: file, length: 1, item: (index: number) => index === 0 ? file : null } as unknown as FileList)
+  const readImage = (file: File) => { if (file.size) void readImages({ 0: file, length: 1, item: (index: number) => index === 0 ? file : null } as unknown as FileList) }
   useEffect(() => {
     const input = document.querySelector('input[type="file"][accept="image/*"]') as HTMLInputElement | null
     if (!input) return
