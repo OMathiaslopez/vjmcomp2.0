@@ -6,14 +6,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Pencil, Plus, Trash2, ChevronLeft, ChevronRight, Upload, X } from "lucide-react"
 
 type Item = Record<string, any>
-const propertyTypes = ["Prédio Comercial", "Casa", "Casa Comercial", "Loja", "Apartamento", "Duplex"]
+const defaultPropertyTypes = ["Prédio Comercial", "Casa", "Casa Comercial", "Loja", "Apartamento", "Duplex"]
 const availability = ["Venda", "Locação", "Venda e locação", "Consultar disponibilidade"]
 const emptyProperty = { title: "", type: "Casa", region: "", availability: "Consultar disponibilidade", area: "", bedrooms: "", bathrooms: "", parking: "", salePrice: "", rentPrice: "", description: "", features: [], images: [], image: "", featured: false }
 const emptyOperation = { title: "", region: "", status: "Operação realizada", description: "", image: "", images: [], features: [] }
 
 export default function AdminPanel() {
   const [tab, setTab] = useState("properties")
-  const [data, setData] = useState<any>({ properties: [], operations: [], contacts: [], settings: { categories: propertyTypes, consultants: [] } })
+  const [data, setData] = useState<any>({ properties: [], operations: [], contacts: [], settings: { categories: defaultPropertyTypes, consultants: [] } })
+  const propertyTypes = data.settings.categories || defaultPropertyTypes
   const [form, setForm] = useState<Item | null>(null)
   const [tag, setTag] = useState("")
   const [imageUrl, setImageUrl] = useState("")
