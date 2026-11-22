@@ -19,6 +19,7 @@ export default function AdminPanel() {
   const [tag, setTag] = useState("")
   const [imageUrl, setImageUrl] = useState("")
   const [message, setMessage] = useState("")
+  const [processingImages, setProcessingImages] = useState(false)
 
   const load = async () => {
     const [draftsResponse, contactsResponse, settingsResponse] = await Promise.all([fetch("/api/admin/drafts", { cache: "no-store" }), fetch("/api/admin/contacts", { cache: "no-store" }), fetch("/api/admin/settings", { cache: "no-store" })])
@@ -47,33 +48,36 @@ export default function AdminPanel() {
   })
   const readImages = async (files: FileList | null) => {
     if (!files) return
+    setProcessingImages(true)
     try {
       const compressed = await Promise.all(Array.from(files).map(compressImage))
       set("images", [...images, ...compressed])
     } catch {
       setMessage("Não foi possível processar uma das imagens selecionadas.")
+    } finally {
+      setProcessingImages(false)
     }
   }
-  const readImage = (file: File) => { if (file.size) void readImages({ 0: file, length: 1, item: (index: number) => index === 0 ? file : null } as unknown as FileList) }
-  useEffect(() => {
+  const readImage = (file: File) => {
+    if (!file.size) return
     const input = document.querySelector('input[type="file"][accept="image/*"]') as HTMLInputElement | null
-    if (!input) return
-    input.multiple = true
-    const handleChange = (event: Event) => { event.stopPropagation(); readImages(input.files) }
-    input.addEventListener("change", handleChange, true)
-    return () => input.removeEventListener("change", handleChange, true)
-  }, [form])
+    void readImages(input?.files || null)
+  }
   const moveImage = (index: number, direction: number) => { const target = index + direction; if (target < 0 || target >= images.length) return; const next = [...images]; [next[index], next[target]] = [next[target], next[index]]; set("images", next) }
   const addTag = () => { if (tag.trim()) { set("features", [...(form?.features || []), tag.trim()]); setTag("") } }
   const list = data[tab] || []
   const openNew = () => setForm(tab === "operations" ? { ...emptyOperation } : { ...emptyProperty })
   const openEdit = (item: Item) => setForm({ ...item, images: item.images || (item.image ? [item.image] : []), features: item.features || [] })
   const save = async (event: React.FormEvent) => {
-    event.preventDefault(); if (!form) return
+    event.preventDefault(); if (!form || processingImages) { if (processingImages) setMessage("Aguarde o processamento das fotos terminar."); return }
     const kind = tab === "operations" ? "operation" : "property"
-    const response = await fetch("/api/admin/drafts", { method: form.id ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...form, kind, image: images[0] || "", images }) })
-    if (!response.ok) { const error = await response.json().catch(() => ({})); setMessage(error.error || "Não foi possível salvar. Tente novamente."); return }
-    setForm(null); setMessage("Publicado no site"); await load()
+    try {
+      const response = await fetch("/api/admin/drafts", { method: form.id ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...form, kind, image: images[0] || "", images }) })
+      if (!response.ok) { const error = await response.json().catch(() => ({})); setMessage(error.error || "Não foi possível salvar. Tente novamente."); return }
+      setForm(null); setMessage("Publicado no site"); await load()
+    } catch {
+      setMessage("Não foi possível conectar ao servidor. Tente novamente.")
+    }
   }
   const saveSettings = async (event: React.FormEvent) => { event.preventDefault(); await fetch("/api/admin/settings", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(data.settings) }); setMessage("Configurações salvas localmente") }
   const setSettings = (name: string, value: any) => setData((current: any) => ({ ...current, settings: { ...current.settings, [name]: value } }))
